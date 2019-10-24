@@ -1,7 +1,7 @@
-import KeyWordExtract
+import underthesea 
+from underthesea import word_tokenize, pos_tag 
 
-def main():
-    text = '''Nữ trưởng phòng dùng bằng cấp của chị bị thôi việc
+print(pos_tag('''Nữ trưởng phòng dùng bằng cấp của chị bị thôi việc
 Bà Trần Thị Ngọc Thêm, Trưởng phòng Quản trị - Văn phòng Tỉnh ủy Đăk Lăk, bị khai trừ Đảng, buộc thôi việc vì dùng bằng cấp 3 của chị ruột.
 
 Ngoài ra, Uỷ ban Kiểm tra Tỉnh ủy Đăk Lăk cũng đang xác minh nguyên nhân dẫn đến sai phạm của bà Thêm (44 tuổi) và xem xét trách nhiệm của 6 cán bộ liên quan, ông Nguyễn Thượng Hải, Chánh văn phòng Tỉnh ủy Đăk Lăk cho biết, chiều 23/10.
@@ -12,14 +12,4 @@ Ngoài ra, Uỷ ban Kiểm tra Tỉnh ủy Đăk Lăk cũng đang xác minh nguy
 
 Khi bị bại lộ, bà Thêm cho rằng, lúc đó còn trẻ, suy nghĩ chưa chín chắn và nông nổi. Chỉ muốn có việc làm để mưu sinh trong lúc gia đình đang khó khăn nên đã lấy tên chị ruột. Nữ trưởng phòng thừa nhận việc làm của mình là sai.
 
-Chiều cùng ngày, bà Bùi Thị Thân, Phó phòng Hành chính (Văn phòng Tỉnh ủy Đăk Lăk) cũng bị kỷ luật khiển trách và cách chức xuống làm nhân viên Phòng Hành chính, vì dùng bằng cấp 3 giả để tiến thân.
-
- '''
-    
-    tr4w = KeyWordExtract.TextRankForKeyWord()
-    tr4w.analyze(text, candidate_tag=['N', 'Np'], window_size=4, lower=False)
-    tr4w.get_keywords(10)
-
-
-if __name__ == "__main__":
-    main()
+Chiều cùng ngày, bà Bùi Thị Thân, Phó phòng Hành chính (Văn phòng Tỉnh ủy Đăk Lăk) cũng bị kỷ luật khiển trách và cách chức xuống làm nhân viên Phòng Hành chính, vì dùng bằng cấp 3 giả để tiến thân.'''))

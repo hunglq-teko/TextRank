@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import numpy as np
 import spacy
+import underthesea
 # from spacy.lang.en.stop_words import STOP_WORDS
 from spacy.lang.vi.stop_words import STOP_WORDS
 
@@ -35,6 +36,7 @@ class TextRankForKeyWord:
                     else:
                         selected_words.append(token.text)
             sentences.append(selected_words)
+        print(sentences)
         return sentences
 
     def get_vocab(self, sentences):
