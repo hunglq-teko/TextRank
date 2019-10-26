@@ -29,7 +29,7 @@ class TextRankForKeyWord:
         for sent in doc.sents:
             selected_words = []
             for token in sent:
-                if token.tag_ in candidate_tag and token.is_stop is False:
+                if token.tag_ in candidate_tag and token.is_stop is False and "_" in token.text:
                     if lower:
                         selected_words.append(token.text_lower())
                     else:
