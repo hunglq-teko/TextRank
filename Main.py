@@ -1,5 +1,8 @@
 import KeyWordExtract
 
+import spacy
+
+
 def main():
     text = '''Nữ trưởng phòng dùng bằng cấp của chị bị thôi việc
 Bà Trần Thị Ngọc Thêm, Trưởng phòng Quản trị - Văn phòng Tỉnh ủy Đăk Lăk, bị khai trừ Đảng, buộc thôi việc vì dùng bằng cấp 3 của chị ruột.
