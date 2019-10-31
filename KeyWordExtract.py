@@ -11,7 +11,6 @@ nlp = spacy.load('vi_spacy_model')
 
 class TextRankForKeyWord:
     def __init__(self):
-        # print(type(STOP_WORDS))
         self.d = 0.85
         self.min_diff = 1e-5
         self.steps = 15
