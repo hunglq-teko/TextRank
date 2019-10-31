@@ -9,7 +9,8 @@ def main():
     
     tr4w = KeyWordExtract.TextRankForKeyWord()
     tr4w.analyze(text, candidate_tag=['N', 'Np'], window_size=4, lower=False, stopwords=['con_gái', 'con_trai'])
-    tr4w.get_keywords(30)
+
+    tr4w.get_keywords(5)
 
 
 if __name__ == "__main__":

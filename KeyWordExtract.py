@@ -17,12 +17,10 @@ class TextRankForKeyWord:
         self.steps = 15
         self.node_weight = None
 
-
     def set_stopwords(self, stopwords):
         for word in STOP_WORDS.union(set(stopwords)):
             lexeme = nlp.vocab[word]
             lexeme.is_stop = True
-
 
     def sentence_segment(self, doc, candidate_tag, lower):
         sentences = []
@@ -34,6 +32,8 @@ class TextRankForKeyWord:
                         selected_words.append(token.text_lower())
                     else:
                         selected_words.append(token.text)
+                    if token.text == "ban_đầu":
+                        print(token.tag_)
             sentences.append(selected_words)
         return sentences
 
@@ -78,6 +78,7 @@ class TextRankForKeyWord:
 
     def get_keywords(self, number=10):
         node_weight = OrderedDict(sorted(self.node_weight.items(), key=lambda  t: t[1], reverse=True))
+        print(node_weight)
         for i, (key, value) in enumerate(node_weight.items()):
             print(key + ' - ' + str(value))
             if i > number:
