@@ -196,7 +196,7 @@ class Rake(object):
             word_list, words_to_rm = [], set()
             for d in nlp(sentence):
                 tok_str = str(d).lower()
-                if tok_str not in {'.!?'}:
+                if tok_str not in {'.!?,'}:
                     word_list.append(tok_str)
                 if d.tag_ in self.verb_tags_to_rm:
                     words_to_rm.add(tok_str)
@@ -236,11 +236,12 @@ class Rake(object):
 def main():
     f = open("input.txt", "r", encoding="utf8")
     content = f.read()
+    print(nlp(content))
     r = Rake()
     r.extract_keywords_from_text(content)
     result = r.get_ranked_phrases_with_scores()
     for r in result:
-        print(r[1])
+        print(r)
 
 
 if __name__ == "__main__":

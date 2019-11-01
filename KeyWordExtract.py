@@ -77,7 +77,6 @@ class TextRankForKeyWord:
 
     def get_keywords(self, number=10):
         node_weight = OrderedDict(sorted(self.node_weight.items(), key=lambda  t: t[1], reverse=True))
-        print(node_weight)
         for i, (key, value) in enumerate(node_weight.items()):
             print(key + ' - ' + str(value))
             if i > number:
