@@ -93,8 +93,10 @@ class Rake(object):
         """Method to extract keywords from the text provided.
         :param text: Text to extract keywords from, provided as a string.
         """
-        sentences = [str(s) for s in nlp(text.lower()).sents if str(s) not in {'.!?'}]
-        # sentences = nltk.tokenize.sent_tokenize(text)
+
+        nlp.add_pipe(nlp.create_pipe('sentencizer'), before='parser')
+        doc = nlp(text)
+        sentences = [sent.string.strip() for sent in doc.sents]
         self.extract_keywords_from_sentences(sentences)
 
     def extract_keywords_from_sentences(self, sentences):
@@ -148,18 +150,19 @@ class Rake(object):
         :param phrase_list: List of List of strings where each sublist is a
                             collection of words which form a contender phrase.
         """
-        co_occurance_graph = defaultdict(lambda: defaultdict(lambda: 0))
+        co_occurrence_graph = defaultdict(lambda: defaultdict(lambda: 0))
         for phrase in phrase_list:
             # For each phrase in the phrase list, count co-occurances of the
             # word with other words in the phrase.
             #
-            # Note: Keep the co-occurances graph as is, to help facilitate its
+            # Note: Keep the co-occurrence graph as is, to help facilitate its
             # use in other creative ways if required later.
             for (word, coword) in product(phrase, phrase):
-                co_occurance_graph[word][coword] += 1
+                co_occurrence_graph[word][coword] += 1
         self.degree = defaultdict(lambda: 0)
-        for key in co_occurance_graph:
-            self.degree[key] = sum(co_occurance_graph[key].values())
+        for key in co_occurrence_graph:
+            self.degree[key] = sum(co_occurrence_graph[key].values())
+        print(self.degree)
 
     def _build_ranklist(self, phrase_list):
         """Method to rank each contender phrase using the formula
@@ -193,14 +196,17 @@ class Rake(object):
         phrase_list = set()
         # Create contender phrases from sentences.
         for sentence in sentences:
-            word_list, words_to_rm = [], set()
-            for d in nlp(sentence):
-                tok_str = str(d).lower()
+            word_list, words_to_rm = list(), set()
+            nlp_sent = nlp(sentence)
+            for d in nlp_sent:
+                tok_str = str(d)
                 if tok_str not in {'.!?,'}:
                     word_list.append(tok_str)
                 if d.tag_ in self.verb_tags_to_rm:
                     words_to_rm.add(tok_str)
             # word_list = [word.lower() for word in wordpunct_tokenize(sentence)]
+            # print('word list', word_list)
+            # print('word to rm', words_to_rm)
             phrase_list.update(self._get_phrase_list_from_words(word_list, words_to_rm))
         return phrase_list
 
@@ -226,6 +232,7 @@ class Rake(object):
         # would rather use an index of word instead of words_to_rm, but can't figure it out
         groups = groupby(word_list, lambda x: x not in self.to_ignore and x not in words_to_rm)
         phrases = [tuple(group[1]) for group in groups if group[0]]
+
         return list(
             filter(
                 lambda x: self.min_length <= len(x) <= self.max_length, phrases
@@ -236,7 +243,6 @@ class Rake(object):
 def main():
     f = open("input.txt", "r", encoding="utf8")
     content = f.read()
-    print(nlp(content))
     r = Rake()
     r.extract_keywords_from_text(content)
     result = r.get_ranked_phrases_with_scores()
